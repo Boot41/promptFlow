@@ -146,8 +146,6 @@ def process_file_input(node_label, data):
 
             file_results.append({"file_name": file.name, "content": file_data})
 
-        print(file_results)
-
         return file_results
 
     except Exception as e:
