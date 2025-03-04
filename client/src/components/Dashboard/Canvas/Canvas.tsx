@@ -13,7 +13,9 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useCallback, useRef } from "react";
+import { Play, Save } from 'lucide-react'
 import { TextInputNode, APICallNode, JSONInputNode, FileInputNode, PromptNode, LogicNode } from "./CustomNodes";
+import { runWorkflow } from "../../../services/api";
 
 const nodeTypes = {
   textInput: TextInputNode,
@@ -105,6 +107,31 @@ export default function Canvas({
     }
   }, [onNodeValueChange]);
 
+
+  const handleRunWorkFlow =  async() => {
+    // Get the current state of the flow
+    console.log("Running workflow with nodes: ", nodes)
+    console.log("Edges: ", edges)
+    console.log("Node values: ", nodeValues)
+
+    try {
+      const result = await runWorkflow(nodes, edges, nodeValues);
+      console.log("Workflow result: ", result)
+    } catch(error) {
+      console.log("Error running workflow: ", error)
+    }
+  };
+
+  const handleSaveWorkflow = () => {
+    const workflowData = {
+      nodes,
+      edges,
+      nodeValues,
+    };
+    console.log("Saving workflow:", workflowData);
+    // Implement save logic here (e.g., send to backend)
+  };
+
   return (
     <div 
       style={{ width: "100%", height: "100%" }}
@@ -141,6 +168,20 @@ export default function Canvas({
       >
         <Background />
         <Controls />
+        <Panel position="top-left" className="bg-white p-3 my-2 rounded-md shadow-md space-y-2">
+          <button 
+            onClick={handleSaveWorkflow} 
+            className="flex items-center gap-2 px-3 my-2 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+          >
+            <Save size={18} />
+          </button>
+          <button 
+            onClick={handleRunWorkFlow} 
+            className="flex items-center gap-2 px-3 my-2 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
+          >
+            <Play size={18} />
+          </button>
+        </Panel>
         <Panel position="bottom-center" className="bg-white p-2 rounded-md shadow-md">
           <div className="text-xs text-gray-500">
             <p>Drag nodes from the panel to the canvas</p>
