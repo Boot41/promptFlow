@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
-import { Home, LogOut, Menu, X } from 'lucide-react';
+import React from 'react';
+import { Home, LogOut, Menu, X, BookDashed } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../services/auth';
+
+type SidebarProps = {
+  activeTab: 'Canvas' | 'Templates';
+  onTabChange: (tab: 'Canvas' | 'Templates') => void;
+};
 
 type SidebarItemProps = {
   icon: React.ReactNode;
@@ -26,23 +31,13 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ icon, text, active, onClick }
   );
 };
 
-const Sidebar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [activeItem, setActiveItem] = useState<string>('Canvas');
+const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   const navigate = useNavigate();
-
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleItemClick = (itemName: string) => {
-    setActiveItem(itemName);
-  };
 
   const handleLogout = async (): Promise<void> => {
     try {
-      await logout(); // assuming logout is a function that returns a Promise
-      navigate("/"); // Navigate to the homepage after logout
+      await logout();
+      navigate("/");
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log("Logout error: ", error.message);
@@ -53,60 +48,42 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <>
-      {/* Mobile menu button */}
-      <button 
-        className="fixed top-4 left-4 z-50 p-2 rounded-md bg-white shadow-md md:hidden"
-        onClick={toggleSidebar}
-      >
-        {isOpen ? <X size={20} /> : <Menu size={20} />}
-      </button>
+    <div className="h-full bg-white shadow-lg">
+      <div className="flex flex-col h-full">
+        {/* Sidebar header */}
+        <div className="flex items-center justify-center h-20 border-b border-gray-200">
+          <h1 className="text-xl font-bold text-indigo-600">PromptFlow</h1>
+        </div>
 
-      {/* Overlay for mobile */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-          onClick={toggleSidebar}
-        />
-      )}
+        {/* Sidebar content */}
+        <div className="flex-1 overflow-y-auto py-4 px-3">
+          <ul className="space-y-2">
+            <SidebarItem 
+              icon={<Home size={20} />} 
+              text="Canvas" 
+              active={activeTab === 'Canvas'} 
+              onClick={() => onTabChange('Canvas')}
+            />
+            <SidebarItem 
+              icon={<BookDashed size={20} />} 
+              text="Templates" 
+              active={activeTab === 'Templates'} 
+              onClick={() => onTabChange('Templates')}
+            />
+          </ul>
+        </div>
 
-      {/* Sidebar */}
-      <div 
-        className={`fixed top-0 left-0 h-full bg-white shadow-lg z-40 transition-all duration-300 ease-in-out ${
-          isOpen ? 'w-64 translate-x-0' : 'w-64 -translate-x-full md:translate-x-0'
-        } md:w-64`}
-      >
-        <div className="flex flex-col h-full">
-          {/* Sidebar header */}
-          <div className="flex items-center justify-center h-20 border-b border-gray-200">
-            <h1 className="text-xl font-bold text-indigo-600">PromptFlow</h1>
-          </div>
-
-          {/* Sidebar content */}
-          <div className="flex-1 overflow-y-auto py-4 px-3">
-            <ul className="space-y-2">
-              <SidebarItem 
-                icon={<Home size={20} />} 
-                text="Canvas" 
-                active={activeItem === 'Canvas'} 
-                onClick={() => handleItemClick('Canvas')}
-              />
-              {/* Additional Sidebar items can go here */}
-            </ul>
-          </div>
-
-          {/* Sidebar footer */}
-          <div className="p-4 border-t border-gray-200">
-            <button 
-             className="flex items-center w-full p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
-             onClick={handleLogout}>
-              <LogOut size={20} className="mr-3" />
-              <span className="font-medium">Logout</span>
-            </button>
-          </div>
+        {/* Sidebar footer */}
+        <div className="p-4 border-t border-gray-200">
+          <button 
+           className="flex items-center w-full p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
+           onClick={handleLogout}>
+            <LogOut size={20} className="mr-3" />
+            <span className="font-medium">Logout</span>
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

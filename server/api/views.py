@@ -30,37 +30,32 @@ class WorkflowView(APIView):
     def post(self, request):
         try:
             # Extract JSON data
-            raw_nodes = request.data.get("nodes", [])
-            raw_edges = request.data.get("edges", [])
-            node_values = request.data.get("nodesValues", {})
+            raw_nodes = request.data.get("nodes", "[]")  # Default to an empty JSON list
+            raw_edges = request.data.get("edges", "[]")
+            
+            # Ensure `nodes` and `edges` are parsed correctly
+            nodes = json.loads(raw_nodes) if isinstance(raw_nodes, str) else raw_nodes
+            edges = json.loads(raw_edges) if isinstance(raw_edges, str) else raw_edges
 
-            # Ensure `nodes` and `edges` are valid JSON lists
-            if isinstance(raw_nodes, str):
-                try:
-                    nodes = json.loads(raw_nodes)
-                except json.JSONDecodeError:
-                    return Response({"error": "Invalid JSON format for 'nodes'"}, status=status.HTTP_400_BAD_REQUEST)
-            else:
-                nodes = raw_nodes
-
-            if isinstance(raw_edges, str):
-                try:
-                    edges = json.loads(raw_edges)
-                except json.JSONDecodeError:
-                    return Response({"error": "Invalid JSON format for 'edges'"}, status=status.HTTP_400_BAD_REQUEST)
-            else:
-                edges = raw_edges
-
+            # Extract nodeValues from form data (handle JSON-encoded text values)
+            node_values = {}
+            for key, value in request.data.items():
+                if key.startswith("nodeValues_"):  # Identify text-based node values
+                    node_id = key.replace("nodeValues_", "")  # Extract nodeId
+                    try:
+                        node_values[node_id] = json.loads(value)  # Decode JSON values
+                    except json.JSONDecodeError:
+                        node_values[node_id] = value  # If not JSON, store raw text
+            
+            # Extract uploaded files
             uploaded_files = request.FILES
             file_nodes = {}
 
             for key, file in uploaded_files.items():
                 # Extract node ID from key pattern: "files_node_{nodeId}_{index}"
-                parts = key.split("_", 2)  # Split only into three parts: ["files", "node", "{nodeId}_{index}"]
-                
+                parts = key.split("_", 2)
                 if len(parts) == 3 and parts[0] == "files" and parts[1] == "node":
-                    node_id = f"node_{parts[2].rsplit('_', 1)[0]}"  # Remove the trailing _{index}
-                    
+                    node_id = f"node_{parts[2].rsplit('_', 1)[0]}"
                     if node_id not in file_nodes:
                         file_nodes[node_id] = []
                     file_nodes[node_id].append(file)
@@ -69,10 +64,15 @@ class WorkflowView(APIView):
             for node_id, files in file_nodes.items():
                 node_values[node_id] = files  # Store files under the corresponding node_id
 
+            # Debug: Print to check values
+            print("Nodes:", nodes)
+            print("Edges:", edges)
+            print("Node Values:", node_values)
+
             # Call execute_workflow function
             workflow_result = execute_workflow(nodes, edges, node_values)
 
-            # Use custom JSON encoder to handle potential serialization issues
+            # Use custom JSON encoder to handle serialization
             return Response(
                 {
                     "message": "Workflow executed successfully!", 

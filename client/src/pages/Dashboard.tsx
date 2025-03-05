@@ -1,12 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { ReactFlowProvider, Edge } from "@xyflow/react";
 import Sidebar from "../components/Dashboard/Sidebar";
 import Canvas from "../components/Dashboard/Canvas/Canvas";
 import NodesPanel from "../components/Dashboard/Canvas/NodesPanel";
+import TemplatesView from "../components/Dashboard/Templates/Templates"; // New component
 import { useFlowStore } from "../stores/useFlowStore";
 
 const Dashboard: React.FC = () => {
   const edgeReconnectSuccessful = useRef<boolean>(true);
+  const [activeTab, setActiveTab] = useState<'Canvas' | 'Templates'>('Canvas');
 
   // Get Zustand store functions & state
   const {
@@ -37,27 +39,36 @@ const Dashboard: React.FC = () => {
     <div style={{ height: "100vh", width: "100%", display: "flex" }}>
       {/* Sidebar with a fixed width */}
       <div style={{ width: "250px" }}>
-        <Sidebar />
+        <Sidebar 
+          activeTab={activeTab} 
+          onTabChange={setActiveTab} 
+        />
       </div>
 
-      {/* Canvas and Nodes Panel will take up the remaining space */}
+      {/* Main Content Area */}
       <div style={{ flexGrow: 1, height: "100%", overflow: "hidden" }}>
         <ReactFlowProvider>
-          <NodesPanel />
-          <Canvas
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            onReconnect={onReconnect}
-            onReconnectStart={onReconnectStart}
-            onReconnectEnd={onReconnectEnd}
-            addNode={addNode}
-            removeNode={removeNode}
-            onNodeValueChange={updateNodeValue}
-            nodeValues={nodeValues}
-          />
+          {activeTab === 'Canvas' ? (
+            <>
+              <NodesPanel />
+              <Canvas
+                nodes={nodes}
+                edges={edges}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onReconnect={onReconnect}
+                onReconnectStart={onReconnectStart}
+                onReconnectEnd={onReconnectEnd}
+                addNode={addNode}
+                removeNode={removeNode}
+                onNodeValueChange={updateNodeValue}
+                nodeValues={nodeValues}
+              />
+            </>
+          ) : (
+            <TemplatesView />
+          )}
         </ReactFlowProvider>
       </div>
     </div>

@@ -3,10 +3,20 @@ import csv
 import io
 import fitz  # PyMuPDF for PDFs
 import docx  # python-docx for Word files
+import os
 from collections import deque
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+client = Groq(
+    api_key=GROQ_API_KEY
+)
 
 def execute_workflow(nodes, edges, node_values):
-    print("this", node_values)
     node_map = {node["id"]: node for node in nodes}
     graph = {node["id"]: [] for node in nodes}
     incoming_edges = {node["id"]: 0 for node in nodes}
@@ -69,7 +79,7 @@ def process_node(node_type, node_label, data):
         "jsonInput": process_json_input,
         "fileInput": process_file_input,
         "promptNode": process_prompt_field,
-        # "logicNode": process_logic_node
+        "logicNode": process_logic_node
     }
 
     func = node_functions.get(node_type, default_function)
@@ -174,7 +184,83 @@ def extract_text_from_docx(docx_bytes):
         return f"Error reading DOCX: {str(e)}"
 
 def process_prompt_field(node_label, data):
-    return {"prompt_response": f"Processed: {data}"}
+    # System Prompt Template
+    template = """
+    You are an AI that processes any type of input, including text, JSON, or file-converted strings.
+    Your task is to analyze the input based on the user prompt, extract relevant information, 
+    and return a structured JSON response.
+
+    **Instructions:**
+    - If the input is text, analyze it based on the user's request.
+    - If the input is JSON, extract relevant fields and process them accordingly.
+    - If the input is a file-converted string (base64-encoded), decode it, analyze the content, and return useful insights.
+
+    **Response Format:**
+    Ensure the response is a valid JSON object with the following structure:
+    {
+        "status": "success",
+        "extracted_data": { ... }  # Key details from the input
+    }
+
+    !!!DON'T GIVE ADDITIONAL DETAILS THAN REQUIRED BY THE USER PROMPT!!!
+    """
+
+
+    full_prompt = f"Input Data: {data['previous_output']}\n\nUser Prompt: {data['input']}\n\nReturn the JSON output"
+
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": template},
+            {"role": "user", "content": full_prompt},
+        ],
+    )
+
+    response_text = response.choices[0].message.content.strip()
+
+    try: 
+        return json.loads(response_text)
+    except json.JSONDecodeError: 
+        return {"status": "error", "message": "Failed to decode JSON", "raw_output": response_text}
+
+
+def process_logic_node(node_label, data):
+    # System Prompt Template
+    template = """
+    You are an AI that processes any input, based on logic of the user input.
+    Your task is to analyze the input based on the user prompt, extract details based off of the logic given by the user, 
+    and return a structured JSON response.
+
+    **Instructions:**
+    Analyze the input based on the user's given logic and extract the required data or process
+
+    **Response Format:**
+    Ensure the response is a valid JSON object with the following structure:
+    {
+        "status": "success",
+        "extracted_data": { ... }  # Key details from the input
+    }
+
+    !!!DON'T GIVE ADDITIONAL DETAILS THAN REQUIRED BY THE USER PROMPT!!!
+    """
+
+    full_prompt = f"Input Data: {data['previous_output']}\n\nUser Prompt: {data['input']}\n\nReturn the JSON output"
+
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {"role": "system", "content": template},
+            {"role": "user", "content": full_prompt},
+        ],
+    )
+
+    response_text = response.choices[0].message.content.strip()
+
+    try: 
+        return json.loads(response_text)
+    except json.JSONDecodeError: 
+        return {"status": "error", "message": "Failed to decode JSON", "raw_output": response_text}
+
 
 def default_function(node_label, data):
-    return {"message": "No specific processing for this node type"}
+    return {"error": f"Unsupported node type for {node_label}"}
