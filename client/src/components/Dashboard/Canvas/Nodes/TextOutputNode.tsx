@@ -55,15 +55,12 @@ export function JSONOutputNode({ data }: any) {
         // Use setTimeout to make this asynchronous and avoid blocking the UI
         setTimeout(() => {
           try {
-            console.log("Processing result:", workflowResult);
-            
             // Check if the result has the expected structure
             if (workflowResult.outputs && typeof workflowResult.outputs === 'object') {
               const nodeOutput = workflowResult.outputs[data.id];
               setOutput(nodeOutput !== undefined ? nodeOutput : 'No output available for this node');
             } else {
               // Handle case where result structure is different than expected
-              console.log("Unexpected result structure:", workflowResult);
               setOutput(JSON.stringify(workflowResult, null, 2));
             }
             

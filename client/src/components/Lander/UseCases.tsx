@@ -2,30 +2,30 @@ import React from 'react';
 import { Layers, Zap, MessageSquare } from 'lucide-react';
 
 const useCases = [
-  {
-    title: 'PlaceHolder',
-    description: 'Placeholder',
-    icon: Layers,
-    color: 'bg-blue-500',
-  }
   // {
-  //   title: 'Content Generation Pipelines',
-  //   description: 'Create multi-stage content generation workflows that refine outputs through multiple AI models and human review steps.',
+  //   title: 'PlaceHolder',
+  //   description: 'Placeholder',
   //   icon: Layers,
   //   color: 'bg-blue-500',
-  // },
-  // {
-  //   title: 'Conversational AI Systems',
-  //   description: 'Build complex chatbots with memory, context awareness, and specialized knowledge domains using branching conversation flows.',
-  //   icon: MessageSquare,
-  //   color: 'bg-green-500',
-  // },
-  // {
-  //   title: 'Data Processing & Analysis',
-  //   description: 'Transform raw data through AI processing steps with conditional logic based on content, sentiment, or other attributes.',
-  //   icon: Zap,
-  //   color: 'bg-purple-500',
-  // },
+  // }
+  {
+    title: 'Content Generation Pipelines',
+    description: 'Create multi-stage content generation workflows that refine outputs through multiple AI models and human review steps.',
+    icon: Layers,
+    color: 'bg-blue-500',
+  },
+  {
+    title: 'Conversational AI Systems',
+    description: 'Build complex chatbots with memory, context awareness, and specialized knowledge domains using branching conversation flows.',
+    icon: MessageSquare,
+    color: 'bg-green-500',
+  },
+  {
+    title: 'Data Processing & Analysis',
+    description: 'Transform raw data through AI processing steps with conditional logic based on content, sentiment, or other attributes.',
+    icon: Zap,
+    color: 'bg-purple-500',
+  },
 ];
 
 const UseCases = () => {
@@ -52,25 +52,25 @@ const UseCases = () => {
                 <h3 className="mt-5 text-lg font-medium text-gray-900">{useCase.title}</h3>
                 <p className="mt-2 text-base text-gray-500">{useCase.description}</p>
               </div>
-              <div className="px-6 py-3 bg-gray-50">
+              {/* <div className="px-6 py-3 bg-gray-50">
                 <div className="text-sm">
                   <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
                     View example workflow <span aria-hidden="true">&rarr;</span>
                   </a>
                 </div>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        {/* <div className="mt-12 text-center">
           <a
             href="#"
             className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
           >
             Explore all use cases
           </a>
-        </div>
+        </div> */}
       </div>
     </section>
   );

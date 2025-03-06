@@ -12,12 +12,12 @@ const Footer = () => {
           </div>
         </div>
         <nav className="mt-8 flex flex-wrap justify-center" aria-label="Footer">
-          <div className='px-5 py-2'>
+          {/* <div className='px-5 py-2'>
             <a href="#" className="text-base text-gray-500 hover:text-gray-900">
               Placeholder
             </a>
-          </div>
-          {/* <div className="px-5 py-2">
+          </div> */}
+          <div className="px-5 py-2">
             <a href="#" className="text-base text-gray-500 hover:text-gray-900">
               About
             </a>
@@ -27,7 +27,7 @@ const Footer = () => {
               Features
             </a>
           </div>
-          <div className="px-5 py-2">
+          {/* <div className="px-5 py-2">
             <a href="#" className="text-base text-gray-500 hover:text-gray-900">
               Pricing
             </a>

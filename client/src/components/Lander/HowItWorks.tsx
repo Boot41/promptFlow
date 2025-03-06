@@ -2,30 +2,30 @@ import React from 'react';
 import { ChevronRight } from 'lucide-react';
 
 const steps = [
-  {
-    id: '01',
-    name: 'Placeholder',
-    description: 'A placeholder for the first step.',
-    imageSrc: '',
-  },
   // {
   //   id: '01',
-  //   name: 'Design Your Canvas',
-  //   description: 'Start with a blank canvas and add input nodes to capture user data or system variables.',
-  //   imageSrc: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80',
+  //   name: 'Placeholder',
+  //   description: 'A placeholder for the first step.',
+  //   imageSrc: '',
   // },
-  // {
-  //   id: '02',
-  //   name: 'Add Prompt Nodes',
-  //   description: 'Create prompt nodes with templates and connect them to inputs. Configure each prompt with specific instructions.',
-  //   imageSrc: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80',
-  // },
-  // {
-  //   id: '03',
-  //   name: 'Define Logic & Flow',
-  //   description: 'Add conditional branches, splits, and merges to create complex decision trees based on prompt outputs.',
-  //   imageSrc: 'https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
-  // },
+  {
+    id: '01',
+    name: 'Design Your Canvas',
+    description: 'Start with a blank canvas and add input nodes to capture user data or system variables.',
+    imageSrc: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80',
+  },
+  {
+    id: '02',
+    name: 'Add Prompt Nodes',
+    description: 'Create prompt nodes with templates and connect them to inputs. Configure each prompt with specific instructions.',
+    imageSrc: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80',
+  },
+  {
+    id: '03',
+    name: 'Define Logic & Flow',
+    description: 'Add conditional branches, splits, and merges to create complex decision trees based on prompt outputs.',
+    imageSrc: 'https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+  },
   // {
   //   id: '04',
   //   name: 'Test & Deploy',

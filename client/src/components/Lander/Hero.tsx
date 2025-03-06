@@ -12,7 +12,7 @@ const Hero = () => {
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
             aria-hidden="true"
-          >
+          > 
             <polygon points="50,0 100,0 50,100 0,100" />
           </svg>
 
@@ -23,18 +23,8 @@ const Hero = () => {
                 <span className="block text-indigo-600 xl:inline">visually on canvas</span>
               </h1>
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                Build multi-step prompt workflows with a drag-and-drop interface. Connect inputs, prompts, and outputs with powerful branching, merging, and conditional logic.
+                Build multi-step prompt workflows with a drag-and-drop interface. 
               </p>
-              <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                <div className="mt-3 sm:mt-0 sm:ml-3">
-                  <a
-                    href="#"
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
-                  >
-                    Live demo <ArrowRight className="ml-2 h-5 w-5" />
-                  </a>
-                </div>
-              </div>
             </div>
           </main>
         </div>

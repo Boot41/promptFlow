@@ -15,20 +15,26 @@ const Modal: React.FC<ModalProps> = ({ isOpen, closeModal, children }) => {
   return (
     <div
       className="fixed inset-0 flex justify-center items-center z-50"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
       aria-hidden="true"
     >
-      <div className="relative p-4 w-full max-w-md max-h-full">
-        {/* Modal content */}
-        <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-          {/* Modal header */}
+      {/* Blurred Background */}
+      <div
+        className="fixed inset-0 bg-gray-900 bg-opacity-30 backdrop-blur-lg backdrop-filter transition-opacity"
+        onClick={closeModal}
+      ></div>
+
+      {/* Modal Container */}
+      <div className="relative p-4 w-full max-w-md max-h-full z-50">
+        {/* Modal Content */}
+        <div className="relative bg-white rounded-lg shadow-lg dark:bg-white-700">
+          {/* Modal Header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-blue-500">
               {children.title}
             </h3>
             <button
               type="button"
-              className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               onClick={closeModal}
             >
               <svg
@@ -50,7 +56,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, closeModal, children }) => {
             </button>
           </div>
 
-          {/* Modal body */}
+          {/* Modal Body */}
           <div className="p-4 md:p-5">{children.body}</div>
         </div>
       </div>

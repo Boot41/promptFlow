@@ -15,7 +15,7 @@ const nodesList = [
   {
     category: "Processing Fields",
     nodes: [
-      { type: "apiCall", label: "API Call", icon: <Zap size={18} /> },
+      { type: "apiCall", label: "Actions", icon: <Zap size={18} /> },
       { type: "promptNode", label: "Instruct Field", icon: <MessageSquare size={18} /> },
       { type: "logicNode", label: "Logic Field", icon: <Lightbulb size={18} /> },
     ],

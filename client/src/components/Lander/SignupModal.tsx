@@ -50,7 +50,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSu
             <div>
               <label
                 htmlFor="username"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
               >
                 Username
               </label>
@@ -60,7 +60,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSu
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="username"
                 required
               />
@@ -68,7 +68,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSu
             <div>
               <label
                 htmlFor="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
               >
                 Your email
               </label>
@@ -78,7 +78,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSu
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="name@company.com"
                 required
               />
@@ -86,7 +86,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSu
             <div>
               <label
                 htmlFor="password"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-700"
               >
                 Your password
               </label>
@@ -96,7 +96,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSu
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="min 8 characters"
                 minLength={8}
                 required

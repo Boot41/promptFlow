@@ -46,6 +46,100 @@ const TemplatesView: React.FC<TemplatesViewProps> = ({ onTabChange }) => {
         { source: 'node_2', target: 'node_3', animated: true },
         { source: 'node_3', target: 'node_4', animated: true }
       ]
+    },
+    {
+      id: 2,
+      name: 'Invoice Policy Validation',
+      description: 'A workflow for validating invoices against a policy and extracting emails from the matching document.',
+      nodes: ['File Input', 'Text Input', 'Prompt', 'Text Output'],
+      nodesData: {
+        'node_1741268699845': { 
+          type: 'fileInput', 
+          position: { x: 100, y: 100 },
+          data: { label: 'File Input', value: '' }
+        },
+        'node_1741268980627': { 
+          type: 'textInput', 
+          position: { x: 400, y: 100 },
+          data: { 
+            label: 'Text Input',
+            value: 'Policy: For the invoices to be valid the total must be strictly greater than 0'
+          }
+        },
+        'node_1741268986979': { 
+          type: 'promptNode', 
+          position: { x: 700, y: 100 },
+          data: { 
+            label: 'Prompt',
+            value: 'Compare the two files uploaded with the policy given. If the policy matches the document, extract the emails. Extract the email from only the document the policy matches.'
+          }
+        },
+        'node_1741269073837': { 
+          type: 'textOutput', 
+          position: { x: 1000, y: 100 },
+          data: { label: 'Text Output', value: '' }
+        }
+      },
+      edges: [
+        { source: 'node_1741268699845', target: 'node_1741268986979', animated: true },
+        { source: 'node_1741268980627', target: 'node_1741268986979', animated: true },
+        { source: 'node_1741268986979', target: 'node_1741269073837', animated: true }
+      ]
+    },
+    {
+      id: 3,
+      name: 'Customer Complaint Resolution',
+      description: 'A workflow for analyzing customer complaints, categorizing them by severity, determining response templates, and generating customer emails.',
+      nodes: ['JSON Input', 'Prompt', 'Logic', 'Prompt', 'API Call', 'Text Output'],
+      nodesData: {
+        'node_1741273508526': { 
+          type: 'jsonInput', 
+          position: { x: 100, y: 100 },
+          data: { label: 'Customer Complaints', value: '[...]' } // JSON data placeholder
+        },
+        'node_1741273297007': { 
+          type: 'promptNode', 
+          position: { x: 400, y: 100 },
+          data: { 
+            label: 'Analyze Complaints',
+            value: 'Given these customer complaints, divide them on basis of severity and category and extract their emails whose severity is high.'
+          }
+        },
+        'node_1741274631829': { 
+          type: 'logicNode', 
+          position: { x: 700, y: 100 },
+          data: { 
+            label: 'Determine Response',
+            value: 'Determine an appropriate response template for the customer complaints.'
+          }
+        },
+        'node_1741274750152': { 
+          type: 'promptNode', 
+          position: { x: 1000, y: 100 },
+          data: { 
+            label: 'Generate Response',
+            value: 'Based on the response template, generate emails for the customer complaints.'
+          }
+        },
+        'node_1741274829561': { 
+          type: 'apiCall', 
+          position: { x: 1300, y: 100 },
+          data: { label: 'Email API', value: 'email' }
+        },
+        'node_1741274847607': { 
+          type: 'textOutput', 
+          position: { x: 1600, y: 100 },
+          data: { label: 'Case Summary', value: '' }
+        }
+      },
+      edges: [
+        { source: 'node_1741273508526', target: 'node_1741273297007', animated: true },
+        { source: 'node_1741273508526', target: 'node_1741274631829', animated: true },
+        { source: 'node_1741273297007', target: 'node_1741274750152', animated: true },
+        { source: 'node_1741274631829', target: 'node_1741274750152', animated: true },
+        { source: 'node_1741274750152', target: 'node_1741274829561', animated: true },
+        { source: 'node_1741274829561', target: 'node_1741274847607', animated: true }
+      ]
     }
   ];
 

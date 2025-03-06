@@ -1,9 +1,23 @@
 import { XCircleIcon } from "lucide-react";
 import { Handle, Position } from "@xyflow/react";
+import { useRef, useEffect } from 'react';
 
 export function JSONInputNode({ data }: any) {
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+    // Update height on input change
+    useEffect(() => {
+      if (textAreaRef.current) {
+        // Reset height to calculate the actual scrollHeight
+        textAreaRef.current.style.height = "auto";
+        // Set new height based on scrollHeight (plus a little extra padding)
+        const newHeight = textAreaRef.current.scrollHeight;
+        textAreaRef.current.style.height = `${newHeight}px`;
+      }
+    }, [data.value]);
+
     return (
-      <div className="relative p-4 bg-green-50 rounded-md shadow-md border border-green-300">
+      <div className="relative p-4 bg-green-50 rounded-md shadow-md border border-green-300 min-w-64 transition-all duration-200">
         {/* Delete Button */}
         <button
           className="absolute top-1 right-1 text-red-500 hover:text-red-700"
@@ -13,12 +27,15 @@ export function JSONInputNode({ data }: any) {
         </button>
   
         <label className="block text-sm font-medium mb-1 text-green-600">JSON Input</label>
-        <input
-          type="text"
+        <textarea
+          ref={textAreaRef}
           placeholder="Enter JSON..."
-          className="w-full px-2 py-1 border rounded-md text-sm"
+          className="w-full px-2 py-1 border rounded-md text-sm resize-none overflow-hidden"
           value={data.value || ""}
-          onChange={(e) => data.onChange(e.target.value)}
+          onChange={(e) => {
+            data.onChange(e.target.value);
+          }}
+          rows={1}
         />
         <Handle type="source" position={Position.Bottom} className="w-2 h-2 bg-green-600" />
       </div>

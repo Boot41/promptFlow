@@ -10,6 +10,7 @@ from .NodeProcessors.process_prompt_field import process_prompt_field
 from .NodeProcessors.process_logic_node import process_logic_node
 from .NodeProcessors.process_api_node import process_api_node
 from .NodeProcessors.process_text_input import process_text_input
+from .NodeProcessors.process_output_node import process_text_output
 
 load_dotenv()
 
@@ -20,6 +21,7 @@ client = Groq(
 )
 
 def execute_workflow(nodes, edges, node_values):
+    print(nodes, edges, node_values)
     node_map = {node["id"]: node for node in nodes}
     graph = {node["id"]: [] for node in nodes}
     incoming_edges = {node["id"]: 0 for node in nodes}
@@ -75,7 +77,13 @@ def execute_workflow(nodes, edges, node_values):
             if incoming_edges[next_node_id] == 0:
                 queue.append(next_node_id)
 
-    return node_results
+    print(node_results)
+    results = last_key = list(node_results.keys())[-1]
+    last_result = node_results[last_key]
+
+    print(last_result)
+
+    return last_result
 
 def process_node(client, node_type, node_label, data, node_values):
     node_functions = {
@@ -91,8 +99,7 @@ def process_node(client, node_type, node_label, data, node_values):
     func = node_functions.get(node_type, default_function)
     return func(client, node_label, data, node_values)
 
-def process_text_output(client, node_label, data, node_values):
-    return 
+
 
 def default_function(client, node_label, data):
     return {"error": f"Unsupported node type for {node_label}"}

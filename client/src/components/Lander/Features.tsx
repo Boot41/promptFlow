@@ -7,16 +7,16 @@ const features = [
     description: 'Drag and drop nodes to create complex AI prompt workflows on an unlimited canvas.',
     icon: Workflow,
   },
-  // {
-  //   name: 'Branching Logic',
-  //   description: 'Create conditional paths based on prompt outputs or user-defined criteria.',
-  //   icon: GitBranch,
-  // },
-  // {
-  //   name: 'Merge Capabilities',
-  //   description: 'Combine outputs from multiple prompts into a unified result.',
-  //   icon: GitMerge,
-  // },
+  {
+    name: 'Branching Logic',
+    description: 'Create conditional paths based on prompt outputs or user-defined criteria.',
+    icon: GitBranch,
+  },
+  {
+    name: 'Merge Capabilities',
+    description: 'Combine outputs from multiple prompts into a unified result.',
+    icon: GitMerge,
+  },
   // {
   //   name: 'Advanced Prompting',
   //   description: 'Design sophisticated prompts with variables, context, and formatting options.',
