@@ -1,6 +1,3 @@
-import React from 'react';
-import { ChevronRight } from 'lucide-react';
-
 const steps = [
   // {
   //   id: '01',

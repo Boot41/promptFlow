@@ -100,7 +100,7 @@ const Navbar = () => {
         <LoginModal isOpen={isModalOpen} closeModal={closeModal} onLoginSuccess={handleLoginSuccess} onOpenSignup={() => openModal("signup")} />
       )}
       {modalType === "signup" && (
-        <SignupModal isOpen={isModalOpen} closeModal={closeModal} onLoginSuccess={handleLoginSuccess} />
+        <SignupModal isOpen={isModalOpen} closeModal={closeModal} onLoginSuccess={handleLoginSuccess} onOpenLogin={() => openModal("login")}/>
       )}
     </nav>
   );

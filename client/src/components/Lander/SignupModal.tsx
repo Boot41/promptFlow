@@ -7,6 +7,7 @@ interface SignupModalProps {
   isOpen: boolean;
   closeModal: () => void;
   onLoginSuccess: (user: { id: number; username: string; email: string }) => void;
+  onOpenLogin: () => void
 }
 
 interface SignupResponse {
@@ -14,7 +15,7 @@ interface SignupResponse {
   tokens: { access: string; refresh: string };
 }
 
-const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSuccess }) => {
+const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSuccess, onOpenLogin }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -60,7 +61,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSu
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black"
                 placeholder="username"
                 required
               />
@@ -78,7 +79,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSu
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black"
                 placeholder="name@company.com"
                 required
               />
@@ -96,7 +97,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSu
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black"
                 placeholder="min 8 characters"
                 minLength={8}
                 required
@@ -108,6 +109,20 @@ const SignupModal: React.FC<SignupModalProps> = ({ isOpen, closeModal, onLoginSu
             >
               Sign up
             </button>
+            <div className="text-sm font-medium text-gray-500 dark:text-gray-700">
+              Already have an account?{" "}
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent page reload
+                  closeModal(); // Close login modal
+                  onOpenLogin(); // Open signup modal
+                }}
+                className="text-blue-700 hover:underline dark:text-blue-500 cursor-pointer"
+              >
+                Login
+              </a>
+            </div>
           </form>
         ),
       }}
