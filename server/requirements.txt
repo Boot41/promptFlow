@@ -2,6 +2,9 @@ django
 djangorestframework
 django-cors-headers
 djangorestframework-simplejwt
+django-encrypted-model-fields
+google-auth-oauthlib
+google-api-python-client
 pymupdf
 python-docx
 python-dotenv

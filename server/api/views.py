@@ -64,11 +64,6 @@ class WorkflowView(APIView):
             for node_id, files in file_nodes.items():
                 node_values[node_id] = files  # Store files under the corresponding node_id
 
-            # Debug: Print to check values
-            print("Nodes:", nodes)
-            print("Edges:", edges)
-            print("Node Values:", node_values)
-
             # Call execute_workflow function
             workflow_result = execute_workflow(nodes, edges, node_values)
 

@@ -4,11 +4,12 @@ import Sidebar from "../components/Dashboard/Sidebar";
 import Canvas from "../components/Dashboard/Canvas/Canvas";
 import NodesPanel from "../components/Dashboard/Canvas/NodesPanel";
 import TemplatesView from "../components/Dashboard/Templates/Templates"; // New component
+import SettingsView from "../components/Dashboard/SettingsView";
 import { useFlowStore } from "../stores/useFlowStore";
 
 const Dashboard: React.FC = () => {
   const edgeReconnectSuccessful = useRef<boolean>(true);
-  const [activeTab, setActiveTab] = useState<'Canvas' | 'Templates'>('Canvas');
+  const [activeTab, setActiveTab] = useState<'Canvas' | 'Templates' | 'Settings'>('Canvas');
 
   // Get Zustand store functions & state
   const {
@@ -66,8 +67,10 @@ const Dashboard: React.FC = () => {
                 nodeValues={nodeValues}
               />
             </>
-          ) : (
+          ) : activeTab === 'Templates' ?(
             <TemplatesView />
+          ) : (
+            <SettingsView />
           )}
         </ReactFlowProvider>
       </div>

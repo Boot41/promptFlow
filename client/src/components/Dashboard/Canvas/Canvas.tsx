@@ -14,7 +14,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import { useCallback, useRef } from "react";
 import { Play, Save } from 'lucide-react'
-import { TextInputNode, APICallNode, JSONInputNode, FileInputNode, PromptNode, LogicNode } from "./CustomNodes";
+import { TextInputNode, APICallNode, JSONInputNode, FileInputNode, PromptNode, LogicNode, JSONOutputNode, TextOutputNode, FileOutputNode } from "./CustomNodes";
 import { runWorkflow } from "../../../services/api";
 
 const nodeTypes = {
@@ -23,7 +23,10 @@ const nodeTypes = {
   jsonInput: JSONInputNode,
   fileInput: FileInputNode,
   promptNode: PromptNode,
-  logicNode: LogicNode
+  logicNode: LogicNode,
+  jsonOutput: JSONOutputNode,
+  textOutput: TextOutputNode,
+  fileOutput: FileOutputNode
 };
 
 interface CanvasProps {

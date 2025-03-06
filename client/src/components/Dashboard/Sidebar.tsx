@@ -1,11 +1,11 @@
 import React from 'react';
-import { Home, LogOut, Menu, X, BookDashed } from 'lucide-react';
+import { Home, LogOut, Settings, BookDashed } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../services/auth';
 
 type SidebarProps = {
-  activeTab: 'Canvas' | 'Templates';
-  onTabChange: (tab: 'Canvas' | 'Templates') => void;
+  activeTab: 'Canvas' | 'Templates' | 'Settings';
+  onTabChange: (tab: 'Canvas' | 'Templates' | 'Settings') => void;
 };
 
 type SidebarItemProps = {
@@ -75,12 +75,23 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
 
         {/* Sidebar footer */}
         <div className="p-4 border-t border-gray-200">
-          <button 
+          <SidebarItem 
+          icon={<Settings size={20} />}
+          text="Settings"
+          active={activeTab === 'Settings'}
+          onClick={() => onTabChange('Settings')}
+          />
+          <SidebarItem 
+            icon={<LogOut size={20} />}
+            text="Logout"
+            onClick={handleLogout}
+          />
+          {/* <button 
            className="flex items-center w-full p-2 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
            onClick={handleLogout}>
             <LogOut size={20} className="mr-3" />
             <span className="font-medium">Logout</span>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
