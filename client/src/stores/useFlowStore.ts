@@ -1,6 +1,20 @@
 import { create } from "zustand";
 import { Node, Edge, applyNodeChanges, applyEdgeChanges, Connection, addEdge, reconnectEdge } from "@xyflow/react";
 
+// Define a template interface
+export interface FlowTemplate {
+  id: number;
+  name: string;
+  description: string;
+  nodes: string[];
+  nodesData: Record<string, any>;
+  edges: {
+    source: string;
+    target: string;
+    animated?: boolean;
+  }[];
+}
+
 interface WorkflowResultState {
   result: any | null;
   isLoading: boolean;
@@ -28,6 +42,9 @@ interface FlowState {
   onEdgesChange: (changes: any) => void;
   onConnect: (connection: Connection) => void;
   onReconnect: (oldEdge: Edge, newConnection: Connection) => void;
+  
+  // New method to create flow from template
+  createFlowFromTemplate: (template: FlowTemplate) => void;
 }
 
 export const useFlowStore = create<FlowState>((set) => ({
@@ -77,6 +94,41 @@ export const useFlowStore = create<FlowState>((set) => ({
     set((state) => ({
       edges: reconnectEdge(oldEdge, newConnection, state.edges),
     })),
+    
+  // Implementation of createFlowFromTemplate
+  createFlowFromTemplate: (template) => {
+    // Convert template nodes to ReactFlow nodes format
+    const nodes: Node[] = Object.entries(template.nodesData).map(([nodeId, nodeData]) => ({
+      id: nodeId,
+      type: nodeData.type,
+      position: nodeData.position,
+      data: { 
+        ...nodeData.data,
+        label: nodeData.data?.label || nodeData.type,
+        value: nodeData.data?.value || ""
+      },
+      draggable: true,
+      connectable: true,
+    }));
+    
+    // Convert template edges to ReactFlow edges format
+    const edges: Edge[] = template.edges.map((edge, index) => ({
+      id: `edge-${index}`,
+      source: edge.source,
+      target: edge.target,
+      animated: edge.animated || false,
+      type: 'default',
+    }));
+    
+    // Create nodeValues from nodes
+    const nodeValues = nodes.reduce((acc, node) => {
+      acc[node.id] = node.data?.value || "";
+      return acc;
+    }, {} as Record<string, any>);
+    
+    // Set all the flow data
+    set({ nodes, edges, nodeValues });
+  },
 }));
 
 
@@ -90,4 +142,3 @@ export const useWorkflowResultStore = create<WorkflowResultState>((set) => ({
   setError: (error) => set({ error, isLoading: false }),
   clearResult: () => set({ result: null, error: null, isLoading: false }),
 }));
-

@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
               />
             </>
           ) : activeTab === 'Templates' ?(
-            <TemplatesView />
+            <TemplatesView onTabChange={setActiveTab} />
           ) : (
             <SettingsView />
           )}

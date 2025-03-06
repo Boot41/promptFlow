@@ -24,7 +24,7 @@ import { PromptNode } from "./Nodes/PromptNode";
 // import { JSONOutputNode } from "./Nodes/JSONOutputNode";
 import { TextOutputNode, JSONOutputNode, FileOutputNode } from "./Nodes/TextOutputNode";
 // import { FileOutputNode } from "./Nodes/FileOutputNode";
-import { useWorkflowResultStore } from "../../../stores/useFlowStore";
+import { useWorkflowResultStore, useFlowStore } from "../../../stores/useFlowStore";
 
 const nodeTypes = {
   textInput: TextInputNode,
@@ -36,6 +36,51 @@ const nodeTypes = {
   jsonOutput: JSONOutputNode,
   textOutput: TextOutputNode,
   fileOutput: FileOutputNode
+};
+
+// Create a wrapper component that will connect to the store
+const FlowCanvas = () => {
+  // Get flow data and actions from the store
+  const nodes = useFlowStore(state => state.nodes);
+  const edges = useFlowStore(state => state.edges);
+  const nodeValues = useFlowStore(state => state.nodeValues);
+  const onNodesChange = useFlowStore(state => state.onNodesChange);
+  const onEdgesChange = useFlowStore(state => state.onEdgesChange);
+  const onConnect = useFlowStore(state => state.onConnect);
+  const addNode = useFlowStore(state => state.addNode);
+  const removeNode = useFlowStore(state => state.removeNode);
+  const updateNodeValue = useFlowStore(state => state.updateNodeValue);
+  const onReconnect = useFlowStore(state => state.onReconnect);
+
+  // These are not in the store, so we'll create local handlers
+  const reconnectingEdge = useRef<Edge | null>(null);
+  
+  const onReconnectStart = useCallback(() => {
+    // Store the edge that is being reconnected
+    reconnectingEdge.current = null;
+  }, []);
+
+  const onReconnectEnd = useCallback((_: unknown, edge: Edge) => {
+    // Store the edge that was reconnected
+    reconnectingEdge.current = edge;
+  }, []);
+
+  return (
+    <Canvas
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      addNode={addNode}
+      onReconnect={onReconnect}
+      onReconnectStart={onReconnectStart}
+      onReconnectEnd={onReconnectEnd}
+      removeNode={removeNode}
+      onNodeValueChange={updateNodeValue}
+      nodeValues={nodeValues}
+    />
+  );
 };
 
 interface CanvasProps {
@@ -217,3 +262,6 @@ export default function Canvas({
     </div>
   );
 }
+
+// Export both the connected component and the raw component
+export { FlowCanvas, Canvas };
