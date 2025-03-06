@@ -25,10 +25,6 @@ def execute_workflow(nodes, edges, node_values):
     incoming_edges = {node["id"]: 0 for node in nodes}
     edge_mappings = {}
 
-    print("nodes", nodes)
-    print("edges", edges)
-    print("node_values", node_values)
-
     for edge in edges:
         source = edge["source"]
         target = edge["target"]
@@ -78,8 +74,6 @@ def execute_workflow(nodes, edges, node_values):
             incoming_edges[next_node_id] -= 1
             if incoming_edges[next_node_id] == 0:
                 queue.append(next_node_id)
-    
-    print(node_results)
 
     return node_results
 
@@ -90,11 +84,15 @@ def process_node(client, node_type, node_label, data, node_values):
         "promptNode": process_prompt_field,
         "logicNode": process_logic_node,
         "apiCall": process_api_node,
-        "textInput": process_text_input
+        "textInput": process_text_input,
+        'textOutput': process_text_output
     }
 
     func = node_functions.get(node_type, default_function)
     return func(client, node_label, data, node_values)
+
+def process_text_output(client, node_label, data, node_values):
+    return 
 
 def default_function(client, node_label, data):
     return {"error": f"Unsupported node type for {node_label}"}

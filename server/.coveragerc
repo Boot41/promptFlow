@@ -1,0 +1,33 @@
+[run]
+source = .
+omit =
+    */migrations/*
+    */tests/*
+    */test_*.py
+    */__pycache__/*
+    */manage.py
+    */wsgi.py
+    */asgi.py
+    */settings.py
+    */urls.py
+    */admin.py
+    */apps.py
+    */venv/*
+    */env/*
+    */site-packages/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    def __str__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    pass
+    raise ImportError
+    except ImportError
+    def setUp
+    def tearDown
+
+[html]
+directory = htmlcov

@@ -14,8 +14,17 @@ import {
 import "@xyflow/react/dist/style.css";
 import { useCallback, useRef } from "react";
 import { Play, Save } from 'lucide-react'
-import { TextInputNode, APICallNode, JSONInputNode, FileInputNode, PromptNode, LogicNode, JSONOutputNode, TextOutputNode, FileOutputNode } from "./CustomNodes";
 import { runWorkflow } from "../../../services/api";
+import { JSONInputNode } from "./Nodes/JSONInputNode";
+import { TextInputNode } from "./Nodes/TextInputNode";
+import { FileInputNode } from "./Nodes/FileInputNode";
+import { APICallNode } from "./Nodes/APICallNode";
+import { LogicNode } from "./Nodes/LogicNode";
+import { PromptNode } from "./Nodes/PromptNode";
+// import { JSONOutputNode } from "./Nodes/JSONOutputNode";
+import { TextOutputNode, JSONOutputNode, FileOutputNode } from "./Nodes/TextOutputNode";
+// import { FileOutputNode } from "./Nodes/FileOutputNode";
+import { useWorkflowResultStore } from "../../../stores/useFlowStore";
 
 const nodeTypes = {
   textInput: TextInputNode,
@@ -111,17 +120,30 @@ export default function Canvas({
   }, [onNodeValueChange]);
 
 
-  const handleRunWorkFlow =  async() => {
+  const handleRunWorkFlow = async() => {
+    // Get the workflow store functions
+    const { storeResult, setLoading, setError } = useWorkflowResultStore.getState();
+    
+    // Set loading state
+    setLoading(true);
+    
     // Get the current state of the flow
     console.log("Running workflow with nodes: ", nodes)
     console.log("Edges: ", edges)
     console.log("Node values: ", nodeValues)
-
+  
     try {
       const result = await runWorkflow(nodes, edges, nodeValues);
-      console.log("Workflow result: ", result)
+      
+      // Store the result in the global store
+      storeResult(result);
+      
+      return result;
     } catch(error) {
       console.log("Error running workflow: ", error)
+      
+      // Store the error in the global store
+      setError(error instanceof Error ? error : new Error(String(error)));
     }
   };
 

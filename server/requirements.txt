@@ -9,3 +9,6 @@ pymupdf
 python-docx
 python-dotenv
 groq
+parameterized
+coverage
+django-coverage-plugin

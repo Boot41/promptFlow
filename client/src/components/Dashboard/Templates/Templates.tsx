@@ -3,26 +3,36 @@ import { ArrowRight, Box, GitBranch } from 'lucide-react';
 
 const TemplatesView: React.FC = () => {
   // Sample templates data
-  const templates = [
-    { 
-      id: 1, 
-      name: 'Basic Workflow', 
-      description: 'A simple starting workflow template perfect for beginners. Includes basic input processing and output handling.',
-      nodes: ['Input', 'Process', 'Output'],
-    },
-    { 
-      id: 2, 
-      name: 'Advanced Data Pipeline', 
-      description: 'Complex data transformation workflow with validation steps. Ideal for ETL processes and data warehousing.',
-      nodes: ['Extract', 'Transform', 'Load', 'Validate'],
-    },
-    { 
-      id: 3, 
-      name: 'ML Training Pipeline', 
-      description: 'Specialized workflow for machine learning model training with data preprocessing and evaluation steps.',
-      nodes: ['Preprocess', 'Train', 'Evaluate', 'Deploy'],
-    }
-  ];
+    const templates = [
+      {
+        id: 1,
+        name: 'Resume Screening Pipeline',
+        description: 'An HR workflow for automating resume screening against job descriptions, with AI-powered analysis and email extraction.',
+        nodes: ['File Input', 'Prompt', 'API Call', 'Text Output'],
+        nodesData: {
+          'node_1': { type: 'fileInput', position: { x: 100, y: 100 } },
+          'node_2': { 
+            type: 'promptNode', 
+            position: { x: 400, y: 100 },
+            data: "I'm an HR at Think41. Check if the resumes match the JD of Fullstack developer. If Yes, extract the emails."
+          },
+          'node_3': { 
+            type: 'apiCall', 
+            position: { x: 700, y: 100 },
+            data: "email" 
+          },
+          'node_4': { 
+            type: 'textOutput', 
+            position: { x: 1000, y: 100 } 
+          }
+        },
+        edges: [
+          { source: 'node_1', target: 'node_2', animated: true },
+          { source: 'node_2', target: 'node_3', animated: true },
+          { source: 'node_3', target: 'node_4', animated: true }
+        ]
+      }
+    ];
 
   const handleTemplateClick = (templateId: number) => {
     console.log(`Template ${templateId} selected`);

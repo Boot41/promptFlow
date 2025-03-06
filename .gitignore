@@ -96,3 +96,5 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+llm_reports/
+coverage_reports/

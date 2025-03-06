@@ -37,6 +37,20 @@ class WorkflowView(APIView):
             nodes = json.loads(raw_nodes) if isinstance(raw_nodes, str) else raw_nodes
             edges = json.loads(raw_edges) if isinstance(raw_edges, str) else raw_edges
 
+            # Validate that nodes and edges are provided and are valid lists
+            if not isinstance(nodes, list) or not isinstance(edges, list):
+                return Response(
+                    {"error": "Invalid data format. 'nodes' and 'edges' must be valid lists."}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+                
+            # Validate that at least one node is provided
+            if len(nodes) == 0:
+                return Response(
+                    {"error": "At least one node must be provided."}, 
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
             # Extract nodeValues from form data (handle JSON-encoded text values)
             node_values = {}
             for key, value in request.data.items():

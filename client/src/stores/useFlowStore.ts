@@ -1,6 +1,18 @@
 import { create } from "zustand";
 import { Node, Edge, applyNodeChanges, applyEdgeChanges, Connection, addEdge, reconnectEdge } from "@xyflow/react";
 
+interface WorkflowResultState {
+  result: any | null;
+  isLoading: boolean;
+  error: Error | null;
+  
+  // Actions for workflow results
+  storeResult: (result: any) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: Error | null) => void;
+  clearResult: () => void;
+}
+
 interface FlowState {
   nodes: Node[];
   edges: Edge[];
@@ -66,3 +78,16 @@ export const useFlowStore = create<FlowState>((set) => ({
       edges: reconnectEdge(oldEdge, newConnection, state.edges),
     })),
 }));
+
+
+export const useWorkflowResultStore = create<WorkflowResultState>((set) => ({
+  result: null,
+  isLoading: false,
+  error: null,
+  
+  storeResult: (result) => set({ result, isLoading: false, error: null }),
+  setLoading: (loading) => set({ isLoading: loading }),
+  setError: (error) => set({ error, isLoading: false }),
+  clearResult: () => set({ result: null, error: null, isLoading: false }),
+}));
+
