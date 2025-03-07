@@ -17,65 +17,65 @@ services:
              python manage.py shell < helpers/create_superuser.py &&
              python manage.py runserver 0.0.0.0:8000"
 
-  django-test:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    volumes:
-      - ./server:/app
-    environment:
-      - DEBUG=1
-    networks:
-      - mynetwork
-    command: python manage.py test -v 2
+  # django-test:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./server:/app
+  #   environment:
+  #     - DEBUG=1
+  #   networks:
+  #     - mynetwork
+  #   command: python manage.py test -v 2
 
-  django-llm-evals:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    volumes:
-      - ./server:/app
-    environment:
-      - DEBUG=1
-    networks:
-      - mynetwork
-    command: python run_llm_evals.py
+  # django-llm-evals:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./server:/app
+  #   environment:
+  #     - DEBUG=1
+  #   networks:
+  #     - mynetwork
+  #   command: python run_llm_evals.py
 
-  django-llm-evals-mock:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    volumes:
-      - ./server:/app
-    environment:
-      - DEBUG=1
-    networks:
-      - mynetwork
-    command: python run_llm_evals.py --mock-only
+  # django-llm-evals-mock:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./server:/app
+  #   environment:
+  #     - DEBUG=1
+  #   networks:
+  #     - mynetwork
+  #   command: python run_llm_evals.py --mock-only
 
-  django-coverage:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    volumes:
-      - ./server:/app
-    environment:
-      - DEBUG=1
-    networks:
-      - mynetwork
-    command: python run_full_coverage.py
+  # django-coverage:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./server:/app
+  #   environment:
+  #     - DEBUG=1
+  #   networks:
+  #     - mynetwork
+  #   command: python run_full_coverage.py
 
-  django-coverage-html:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    volumes:
-      - ./server:/app
-    environment:
-      - DEBUG=1
-    networks:
-      - mynetwork
-    command: python run_full_coverage.py --html
+  # django-coverage-html:
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./server:/app
+  #   environment:
+  #     - DEBUG=1
+  #   networks:
+  #     - mynetwork
+  #   command: python run_full_coverage.py --html
 
   client:
     build:
