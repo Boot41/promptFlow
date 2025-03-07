@@ -17,6 +17,65 @@ services:
              python manage.py shell < helpers/create_superuser.py &&
              python manage.py runserver 0.0.0.0:8000"
 
+  django-test:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - ./server:/app
+    environment:
+      - DEBUG=1
+    networks:
+      - mynetwork
+    command: python manage.py test -v 2
+
+  django-llm-evals:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - ./server:/app
+    environment:
+      - DEBUG=1
+    networks:
+      - mynetwork
+    command: python run_llm_evals.py
+
+  django-llm-evals-mock:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - ./server:/app
+    environment:
+      - DEBUG=1
+    networks:
+      - mynetwork
+    command: python run_llm_evals.py --mock-only
+
+  django-coverage:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - ./server:/app
+    environment:
+      - DEBUG=1
+    networks:
+      - mynetwork
+    command: python run_full_coverage.py
+
+  django-coverage-html:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - ./server:/app
+    environment:
+      - DEBUG=1
+    networks:
+      - mynetwork
+    command: python run_full_coverage.py --html
 
   client:
     build:
@@ -31,9 +90,9 @@ services:
       - django
     restart: always
     environment:
-      - VITE_API_BASE_URL=http://django:8000 # Tell frontend where to find the backend
+      - VITE_API_BASE_URL=http://django:8000
     networks:
-      - mynetwork  # Add this network
+      - mynetwork
 
 networks:
   mynetwork:

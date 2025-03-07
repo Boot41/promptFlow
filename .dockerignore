@@ -1,0 +1,54 @@
+# Git
+.git
+.gitignore
+
+# Node.js
+client/node_modules
+client/npm-debug.log
+client/yarn-debug.log
+client/yarn-error.log
+client/.pnp
+client/.pnp.js
+client/coverage
+client/dist
+client/build
+
+# Python
+server/__pycache__/
+server/*.py[cod]
+server/*$py.class
+server/*.so
+server/.Python
+server/env/
+server/build/
+server/develop-eggs/
+server/dist/
+server/downloads/
+server/eggs/
+server/.eggs/
+server/lib/
+server/lib64/
+server/parts/
+server/sdist/
+server/var/
+server/wheels/
+server/*.egg-info/
+server/.installed.cfg
+server/*.egg
+server/.env
+
+# Django
+server/db.sqlite3
+server/db.sqlite3-journal
+server/media
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Editor directories and files
+.idea
+.vscode
+*.swp
+*.swo
