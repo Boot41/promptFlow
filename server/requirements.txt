@@ -12,3 +12,5 @@ groq
 parameterized
 coverage
 django-coverage-plugin
+whitenoise
+gunicorn

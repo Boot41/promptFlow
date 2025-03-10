@@ -98,3 +98,9 @@ Thumbs.db
 htmlcov/
 llm_reports/
 coverage_reports/
+
+#Terraform
+Terraform/terraform.tfstate
+Terraform/terraform.tfvars
+Terraform/.terraform/
+Terraform/.terraform.locked.hcl

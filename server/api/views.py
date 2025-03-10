@@ -2,7 +2,11 @@ import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from utils.workflow_processor import execute_workflow
+
+import os
+if os.getenv("DJANGO_RUNNING") != "migrations":
+    from utils.workflow_processor import execute_workflow
+
 import base64
 
 class CustomJSONEncoder(json.JSONEncoder):

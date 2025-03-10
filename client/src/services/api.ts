@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8000/api";
+const API_BASE_URL = import.meta.env.VITE_BASE_URL + "/api";
 
 export async function runWorkflow(nodes: any[], edges: any[], nodesValues: Record<string, any>) {
     const formData = new FormData();
